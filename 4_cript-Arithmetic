@@ -1,0 +1,23 @@
+import itertools
+def solve_cryptarithmetic(equation):
+    words = equation.replace("+", " ").replace("=", " ").split()
+    unique_letters = set("".join(words))
+    if len(unique_letters) > 10:
+        return None
+    digits = list(range(10))
+    for permutation in itertools.permutations(digits, len(unique_letters)):
+        mapping = dict(zip(unique_letters, permutation))
+        if all(mapping[word[0]] != 0 for word in words):
+            lhs = sum(int("".join(str(mapping[ch]) for ch in word)) for word in words[:-1])
+            rhs = int("".join(str(mapping[ch]) for ch in words[-1]))
+            if lhs == rhs:
+                return mapping
+    return None
+equation = "SEND + MORE = MONEY"
+solution = solve_cryptarithmetic(equation)
+if solution:
+    print("Solution found:")
+    for letter, digit in solution.items():
+        print(f"{letter} = {digit}")
+else:
+    print("No solution found.")
