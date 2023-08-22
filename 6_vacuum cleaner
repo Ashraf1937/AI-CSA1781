@@ -1,0 +1,15 @@
+def clean_rooms(rooms):
+    total_rooms = len(rooms)
+    current_position = 0
+    while True:
+        print(f"Current position: {current_position}   Rooms: {rooms}")
+        if rooms[current_position] == 1:
+            print(f"Cleaning room  at position {current_position}")
+            rooms[current_position] = 0
+        if current_position == total_rooms - 1:
+            break
+        else:
+            current_position += 1
+initial_rooms = [0, 1, 0, 1, 1]
+clean_rooms(initial_rooms)
+print ("cleaning completed")
