@@ -1,0 +1,38 @@
+def water_jug_problem(capacity_a, capacity_b, target):
+    visited = set()
+    stack = [(0, 0, [])]
+    while stack:
+        current_state = stack.pop()
+        a, b, path = current_state
+        if a == target or b == target:
+            path.append((a, b))
+            return path
+        if (a, b) in visited:
+            continue
+        visited.add((a, b))
+        if a < capacity_a:
+            stack.append((capacity_a, b, path + [(a, b)]))
+        if b < capacity_b:
+            stack.append((a, capacity_b, path + [(a, b)]))
+        if a > 0:
+            stack.append((0, b, path + [(a, b)]))
+        if b > 0:
+            stack.append((a, 0, path + [(a, b)]))
+        if a > 0 and b < capacity_b:
+            pour = min(a, capacity_b - b)
+            stack.append((a - pour, b + pour, path + [(a, b)]))
+        if b > 0 and a < capacity_a:
+            pour = min(b, capacity_a - a)
+            stack.append((a + pour, b - pour, path + [(a, b)]))
+    return None
+if __name__ == "__main__":
+    capacity_a = 4
+    capacity_b = 3  
+    target = 2     
+    result = water_jug_problem(capacity_a, capacity_b, target)
+    if result:
+        print("Solution found:")
+        for step, (a, b) in enumerate(result):
+            print(f"Step {step + 1}: Jug A = {a}, Jug B = {b}")
+    else:
+        print("No solution found.")
